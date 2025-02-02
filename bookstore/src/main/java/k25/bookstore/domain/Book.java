@@ -69,6 +69,10 @@ public class Book {
 		this.price = price;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", isbn=" + isbn + ", publicationYear="
