@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Book list</title>
+<title>Kirjalista</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-	<h1>Books</h1>
+	<h1>Kirjat</h1>
 	<table>
 	<tr>
 		<th>Id</th>
@@ -23,7 +23,10 @@
 		<td th:text="${book.publicationYear}"></td>
 		<td th:text="${book.isbn}"></td>
 		<td th:text="${book.price}"></td>
+		<td><a th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
 	</tr>
 </table>
+<br>
+<a href="/addbook">Lisää uusi kirja</a>
 </body>
 </html>
