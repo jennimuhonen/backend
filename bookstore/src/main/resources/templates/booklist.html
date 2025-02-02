@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" /> 
 <head>
 <title>Kirjalista</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 	<h1>Kirjat</h1>
-	<table>
+	<table class="table table-striped">
 	<tr>
 		<th>Id</th>
 		<th>Teoksen nimi</th>
@@ -23,11 +24,11 @@
 		<td th:text="${book.publicationYear}"></td>
 		<td th:text="${book.isbn}"></td>
 		<td th:text="${book.price}"></td>
-		<td><a th:href="@{/delete/{id}(id=${book.id})}">Poista</a></td>
-		<td><a th:href="@{/edit/{id}(id=${book.id})}">Muokkaa</a></td>
+		<td><a th:href="@{/delete/{id}(id=${book.id})}" class="btn btn-danger" >Poista</a></td>
+		<td><a th:href="@{/edit/{id}(id=${book.id})}" class="btn btn-success">Muokkaa</a></td>
 	</tr>
 </table>
 <br>
-<a href="/addbook">Lisää uusi kirja</a>
+<a href="/addbook" class="btn btn-success">Lisää uusi kirja</a>
 </body>
 </html>
