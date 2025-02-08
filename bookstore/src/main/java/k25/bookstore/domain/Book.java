@@ -4,15 +4,24 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 @Entity
+@Table (name = "Book")
 public class Book {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String title, author, isbn;
+	@NotEmpty(message="Kirjalle tulee antaa nimi! :)")
+	@Size(min=1, max=250, message="Kentän merkkimäärän tulee olla välillä 1-250.")
+	private String title;
+	
+	private String author;
+	private String isbn;
 	private int publicationYear;
 	private double price;
 	
