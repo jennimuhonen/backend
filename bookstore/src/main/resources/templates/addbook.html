@@ -9,23 +9,40 @@
 </head>
 
 <body>
-	<form action="#" th:action="@{/savebook}" th:object="${book}" method="post">
-		<p>Lisää uusi kirja</p>
-		<p>
+	<h1>Lisää uusi kirja</h1>
+	<form action="#" th:action="@{/savebook}" th:object="${book}" method="post">	
+		<div>
+		
+			<label for="title">Teoksen nimi</label>
 			<input type="text" placeholder="Teoksen nimi" th:field="*{title}" />
-		</p>
-		<p>
+			<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Error</span>
+			<div style="clear: both; display: block; height: 10px;"></div>
+			
+			<label for="author">Tekijä</label>
 			<input type="text" placeholder="Tekijä" th:field="*{author}" />
-		</p>
-		<p>
+			<div style="clear: both; display: block; height: 10px;"></div>
+			
+			<label for="category">Kieli</label>
+			<select th:field="*{category}" class="form-control">
+       			<option th:each="category: ${categories}" th:value="${category.categoryId}" th:text="${category.categoryName}"></option>
+    		</select>
+    		
+    		<div style="clear: both; display: block; height: 10px;"></div>
+			<label for="publicationYear">Julkaisuvuosi</label>
 			<input type="text" placeholder="Julkaisuvuosi" th:field="*{publicationYear}" />
-		</p>
-		<p>
+			<div style="clear: both; display: block; height: 10px;"></div>
+			
+			<label for="isbn">ISBN</label>
 			<input type="text" placeholder="ISBN" th:field="*{isbn}" />
-		</p>
-		<p>
+			<div style="clear: both; display: block; height: 10px;"></div>
+			
+			<label for="price">Hinta</label>
 			<input type="text" placeholder="Hinta" th:field="*{price}" />
-		</p>
+			<div style="clear: both; display: block; height: 10px;"></div>
+			
+			
+			
+		</div>
 		<input type="submit" value="Lisää" />
 
 	</form>

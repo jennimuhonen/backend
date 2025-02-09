@@ -18,7 +18,11 @@
 		</div>
 		<div>
 			<input type="text" placeholder="Tekijä" th:field="*{author}" />
-			<div th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Error</div>
+		</div>
+		<div>
+			<select th:field="*{category}" class="form-control">
+       			<option th:each="category: ${categories}" th:value="${category.categoryId}" th:text="${category.categoryName}"></option>
+    		</select>
 		</div>
 		<div>
 			<input type="text" placeholder="Julkaisuvuosi" th:field="*{publicationYear}" />

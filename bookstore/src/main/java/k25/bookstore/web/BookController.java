@@ -1,5 +1,6 @@
 package k25.bookstore.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,16 +12,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.validation.Valid;
 import k25.bookstore.domain.Book;
 import k25.bookstore.domain.BookRepository;
+import k25.bookstore.domain.CategoryRepository;
 
 @Controller
 public class BookController {
 	
-	private BookRepository repository;
+	@Autowired
+	private BookRepository bookRepository;
 	
-	public BookController(BookRepository repository) {
-		this.repository = repository;
-	}
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
+	//public BookController(BookRepository bookRepository) {
+	//	this.bookRepository = bookRepository;
+	//}
+	
+	//public BookController(BookRepository bookRepository, CategoryRepository categoryRepository) {
+	//	super();
+	//	this.bookRepository = bookRepository;
+	//	this.categoryRepository = categoryRepository;
+	//}
+
 	//@GetMapping("/index")
 	//public String home() {
 	//	return "index";
@@ -28,21 +40,23 @@ public class BookController {
 	
 	@GetMapping({"/", "/booklist"})
 	public String showBooklist(Model model) {
-		model.addAttribute("books", repository.findAll());
+		model.addAttribute("books", bookRepository.findAll());
+		model.addAttribute("categories", categoryRepository.findAll());
 		System.out.println("Kirjalista haettu");
 		return "booklist";
 	}
 	
 	@GetMapping(value = "/delete/{id}")
 	public String deleteBook(@PathVariable("id") Long bookId) {
-		repository.deleteById(bookId);
+		bookRepository.deleteById(bookId);
 		System.out.println("Kirja poistettu id:llä " + bookId);
 		return "redirect:/booklist";
 	}
 	
 	@GetMapping(value = "/edit/{id}")
 	public String editBook(@PathVariable("id") Long bookId, Model model) {
-		model.addAttribute("editBook", repository.findById(bookId));
+		model.addAttribute("editBook", bookRepository.findById(bookId));
+		model.addAttribute("categories", categoryRepository.findAll());
 		System.out.println("Avattu muokkaussivu kirjalle id:llä " + bookId);
 		return "editbook";
 	}
@@ -50,14 +64,29 @@ public class BookController {
 	@GetMapping("/addbook")
 	public String addFriend(Model model) {
 		model.addAttribute("book", new Book());
+		model.addAttribute("categories", categoryRepository.findAll());
 		System.out.println("Avattu sivu, jolla voidaan lisätä uusi kirja.");
 		return "addbook";
 	}
 	
-	@PostMapping("/savebook")
+	//Ilman validointia
+	/*@PostMapping("/savebook")
 	public String saveBook(Book book) {
-		repository.save(book);
+		bookRepository.save(book);
 		System.out.println("Uusi kirja tallennettu: " + book);
+		return "redirect:/booklist";
+	}*/
+	
+	@PostMapping("/savebook")
+	public String saveBook(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("addBook", book);
+			model.addAttribute("categories", categoryRepository.findAll());
+			System.out.println("Kirjan muokkaus epäonnistui: " + book);
+			return "addbook";
+		}
+		bookRepository.save(book);
+		System.out.println("Muokattu kirja tallennettu: " + book);
 		return "redirect:/booklist";
 	}
 	
@@ -65,10 +94,11 @@ public class BookController {
 	public String saveEditedBook(@Valid @ModelAttribute("editBook") Book book, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("editBook", book);
+			model.addAttribute("categories", categoryRepository.findAll());
 			System.out.println("Kirjan muokkaus epäonnistui: " + book);
 			return "editbook";
 		}
-		repository.save(book);
+		bookRepository.save(book);
 		System.out.println("Muokattu kirja tallennettu: " + book);
 		return "redirect:/booklist";
 	}
