@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import k25.bookstore.domain.Book;
@@ -37,6 +38,8 @@ public class BookController {
 	//public String home() {
 	//	return "index";
 	//}
+	
+	
 	
 	@GetMapping({"/", "/booklist"})
 	public String showBooklist(Model model) {
@@ -101,6 +104,12 @@ public class BookController {
 		bookRepository.save(book);
 		System.out.println("Muokattu kirja tallennettu: " + book);
 		return "redirect:/booklist";
+	}
+	
+	//login
+	@RequestMapping(value="/login")
+	public String login(){
+		return "login";
 	}
 
 }

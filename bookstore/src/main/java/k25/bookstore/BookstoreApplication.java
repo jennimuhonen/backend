@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import k25.bookstore.domain.AppUser;
+import k25.bookstore.domain.AppUserRepository;
 import k25.bookstore.domain.Book;
 import k25.bookstore.domain.BookRepository;
 import k25.bookstore.domain.Category;
@@ -18,7 +20,7 @@ public class BookstoreApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner bookData(BookRepository bookRepository, CategoryRepository categoryRepository) {
+	public CommandLineRunner bookData(BookRepository bookRepository, CategoryRepository categoryRepository, AppUserRepository userRepository) {
 		return (args) -> {
 			
 			System.out.println("Lisätään tietokantaan kategorioita");
@@ -40,6 +42,12 @@ public class BookstoreApplication {
 			for (Book book : bookRepository.findAll()) {
 				System.out.println(book.toString());
 			}
+			
+			System.out.println("Luodaan käyttäjiä");
+			AppUser user1 = new AppUser("user", "$2a$10$wCqhw9Pgc6hjxcYPj3D2Pu/q6lZTjeMSlPmJOe4rPVx6fBYvnEFVG", "USER");
+			AppUser user2 = new AppUser("admin", "$2a$10$vQlQeHhi/PCMZK0hTaTJ3.NtyHk2PluBO..Vh7rx2JDHVCLlR.K5y", "ADMIN");
+			userRepository.save(user1);
+			userRepository.save(user2);
 			
 		};
 		
