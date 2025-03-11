@@ -1,5 +1,6 @@
 package k25.bookstore.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,7 +12,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table (name = "Book")
+@Table (name = "book")
 public class Book {
 	
 	@Id
@@ -23,13 +24,17 @@ public class Book {
 	private String title;
 	
 	private String author;
+	
 	private String isbn;
+	
+	@Column(name = "publication_year")
 	private int publicationYear;
+	
 	private double price;
 	
 	//Category
 	@ManyToOne
-	@JoinColumn(name="categoryId")
+	@JoinColumn(name="category_id")
 	private Category category;
 	
 	public Book() {

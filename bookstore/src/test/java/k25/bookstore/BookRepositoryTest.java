@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import k25.bookstore.domain.Book;
@@ -15,6 +16,7 @@ import k25.bookstore.domain.Category;
 import k25.bookstore.domain.CategoryRepository;
 
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class BookRepositoryTest {
 	
 	@Autowired
